@@ -14,7 +14,6 @@ namespace UnityWebRTCForAMSTest
         public UnityEvent OnClose = new UnityEvent();
 
         private bool isRunning;
-        private bool isLogClearOnConnect;
         private ClientType clientType;
         private bool sendIntervalFlg = false;
         private float sendInterval = 0f;
@@ -35,8 +34,6 @@ namespace UnityWebRTCForAMSTest
         private IWebRTCAsset amsClient;
 
         public AMSClient(
-            WebRTCTest coroutineRunner,
-            bool isLogClearOnConnect,
             ClientType clientType,
             VideoPlayer videoPlayer,
             RawImage display,
@@ -49,7 +46,6 @@ namespace UnityWebRTCForAMSTest
             GameObject logList,
             GameObject logItem)
         {
-            this.isLogClearOnConnect = isLogClearOnConnect;
             this.clientType = clientType;
 
             this.clientToggle = clientToggle;

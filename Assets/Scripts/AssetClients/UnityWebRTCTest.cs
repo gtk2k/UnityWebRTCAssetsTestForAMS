@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Text;
-using System.Threading;
 using Unity.WebRTC;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,11 +9,9 @@ namespace UnityWebRTCForAMSTest
 {
     class UnityWebRTCTest : IWebRTCAsset, IDisposable
     {
-        private SynchronizationContext context;
         private ClientType clientType;
         private int videoWidth;
         private int videoHeight;
-        private int videoBitrate;
         private RenderTexture renderTexture;
         private string streamId;
         private AntMediaSignaling signaling;
@@ -59,13 +56,10 @@ namespace UnityWebRTCForAMSTest
             int videoBitrate,
             RenderTexture renderTexture)
         {
-            context = SynchronizationContext.Current;
-
             this.clientType = clientType;
             this.streamId = streamId;
             this.videoWidth = videoWidth;
             this.videoHeight = videoHeight;
-            this.videoBitrate = videoBitrate;
             this.renderTexture = renderTexture;
             try
             {

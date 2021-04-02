@@ -1,12 +1,10 @@
-﻿using System.IO;
+﻿using Newtonsoft.Json;
+using System;
+using System.Linq;
 using System.Security.Authentication;
-using System.Text;
 using System.Threading;
 using UnityEngine;
 using WebSocketSharp;
-using Newtonsoft.Json;
-using System.Linq;
-using System;
 
 namespace UnityWebRTCForAMSTest
 {

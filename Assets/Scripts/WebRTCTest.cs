@@ -146,8 +146,6 @@ public class WebRTCTest : MonoBehaviour
     private AMSClient createClient(ClientType clientType)
     {
         return new AMSClient(
-            this,
-            logListClearOnConnectToggle.isOn,
             clientType,
             videoPlayer,
             clientType == ClientType.Publisher ? publisherDisplay : playerDisplay,
