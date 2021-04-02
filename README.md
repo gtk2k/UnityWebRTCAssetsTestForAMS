@@ -13,7 +13,7 @@ https://docs.unity3d.com/Packages/com.unity.webrtc@1.1/manual/index.html
 * WebRTC for Unity (Unity Official Asset)
 
 # Switch assets
-Use Asset Type to switch assets.
+Switch assets with [WebRTC Asset:].
 * AMS => Ant Media Server Unity SDK
 * Unity => Unity WebRTC (WebRTC for Unity)
 
