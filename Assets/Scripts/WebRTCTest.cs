@@ -43,6 +43,7 @@ public class WebRTCTest : MonoBehaviour
     [SerializeField] private VideoPlayer videoPlayer;
 
     [SerializeField] private Button resetSettingsButton;
+    [SerializeField] private Button logClearButton;
 
     private AssetType assetType;
     private int videoWidth;
@@ -64,6 +65,8 @@ public class WebRTCTest : MonoBehaviour
             Destroy(item.gameObject);
 
         resetSettingsButton.onClick.AddListener(resetSettings);
+        logClearButton.onClick.AddListener(logClear);
+
         assetTypeDropdown.AddOptions(Enum.GetNames(typeof(AssetType)).ToList());
         assetTypeDropdown.onValueChanged.AddListener(i => assetType = (AssetType)i);
         videoResolutionDropdown.AddOptions(Enum.GetNames(typeof(VideoResolution)).Select(x => x.Replace("_", "")).ToList());
@@ -79,6 +82,7 @@ public class WebRTCTest : MonoBehaviour
             Task.Run(async () =>
             {
                 await Task.Delay(3000);
+                if (!isRunning) return;
                 context.Post(_ =>
                 {
                     if (playerToggle.isOn)
@@ -142,6 +146,7 @@ public class WebRTCTest : MonoBehaviour
     private AMSClient createClient(ClientType clientType)
     {
         return new AMSClient(
+            this,
             logListClearOnConnectToggle.isOn,
             clientType,
             videoPlayer,
@@ -161,12 +166,7 @@ public class WebRTCTest : MonoBehaviour
         connectButton.GetComponentInChildren<Text>().text = "Close";
 
         if (logListClearOnConnectToggle.isOn)
-        {
-            foreach (Transform item in publisherLogListContent.transform)
-                Destroy(item.gameObject);
-            foreach (Transform item in playerLogListContent.transform)
-                Destroy(item.gameObject);
-        }
+            logClear();
 
         assetTypeDropdown.interactable = false;
         streamIdInputField.interactable = false;
@@ -229,6 +229,11 @@ public class WebRTCTest : MonoBehaviour
             StopCoroutine(webrtcCoroutine);
             WebRTC.Dispose();
         }
+    }
+
+    public void RunCoroutine(IEnumerator croutine)
+    {
+        StartCoroutine(croutine);
     }
 
     private void Update()
@@ -304,13 +309,24 @@ public class WebRTCTest : MonoBehaviour
         publisherToggle.isOn = true;
         publisherSendDataIntavalToggle.isOn = false;
         publisherSendDataInputFeild.text = "foo";
+        publisherSendDataIntervalDropdown.value = (int)SendDataInterval._1s;
 
         playerToggle.isOn = false;
         playerSendDataIntavalToggle.isOn = false;
         playerSendDataInputFeild.text = "bar";
+        playerSendDataIntervalDropdown.value = (int)SendDataInterval._1s;
 
         setVideoResolution((VideoResolution)videoResolutionDropdown.value);
 
         PlayerPrefs.DeleteAll();
+    }
+
+
+    private void logClear()
+    {
+        foreach (Transform item in publisherLogListContent.transform)
+            Destroy(item.gameObject);
+        foreach (Transform item in playerLogListContent.transform)
+            Destroy(item.gameObject);
     }
 }

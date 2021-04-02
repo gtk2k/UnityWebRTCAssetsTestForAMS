@@ -63,8 +63,6 @@ namespace UnityWebRTCForAMSTest
                 {
                     this.trackId = trackId;
                     OnLogEvent.Invoke("OnAddTrack", $"trackId: {trackId}");
-                    //Debug.Log($"OnAddTrack ptr:{receiveTexture.GetNativeTexturePtr()}");
-                    //OnVideoTrack.Invoke(receiveTexture);
                 };
                 if (clientType == ClientType.Player)
                 {

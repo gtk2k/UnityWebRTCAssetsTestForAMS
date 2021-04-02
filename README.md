@@ -3,6 +3,7 @@ This is a project to test sending and receiving streams and sending and receivin
 # Getting Start  
 After cloning the repository, open the project in Unity and install "Ant Media Server Unity SDK" and "WebRTC for Unity Package".
 Scenes / AMSTest Run when you open a scene.
+Send the video clip as a video stream.
 
 ### WebRTC for Unity install
 https://docs.unity3d.com/Packages/com.unity.webrtc@1.1/manual/index.html
@@ -18,7 +19,7 @@ Use Asset Type to switch assets.
 
 # Known Issues
 * Sometimes the connection fails.
-* When running on Unity Editor, the Editor crashes when connecting with both Publisher / Player selected at the same time with Ant Media Unity SDK.
+* The Editor crashes when connecting using the Ant Media Unity SDK on the Editor. If you build and run it, it's okay.
 
 # Lisence
 MIT

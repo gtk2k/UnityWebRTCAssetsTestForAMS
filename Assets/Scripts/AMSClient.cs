@@ -35,6 +35,7 @@ namespace UnityWebRTCForAMSTest
         private IWebRTCAsset amsClient;
 
         public AMSClient(
+            WebRTCTest coroutineRunner,
             bool isLogClearOnConnect,
             ClientType clientType,
             VideoPlayer videoPlayer,
@@ -112,8 +113,8 @@ namespace UnityWebRTCForAMSTest
         }
 
         public void Connect(
-            AssetType assetType, 
-            string signalingUrl, 
+            AssetType assetType,
+            string signalingUrl,
             string streamId,
             int videoWidth,
             int videoHeight,
@@ -140,7 +141,7 @@ namespace UnityWebRTCForAMSTest
                 videoPlayer.Play();
                 display.texture = tex;
             }
-            else if(assetType == AssetType.AMS)
+            else if (assetType == AssetType.AMS)
             {
                 tex = new RenderTexture(videoWidth, videoHeight, 16, RenderTextureFormat.ARGB32);
                 var cb = tex.colorBuffer;
@@ -200,7 +201,7 @@ namespace UnityWebRTCForAMSTest
                         if (sendIntervalCounter == int.MaxValue)
                             sendIntervalCounter = 0;
                         var msg = $"{sendDataInputField.text} ({sendIntervalCounter})";
-                        AddLog(LogLevel.Log, "SendData", msg);
+                        AddLog(LogLevel.Log, "SendData", $"\"{msg}\"");
                         amsClient.SendDataChannelData(msg);
                     }
                 }

@@ -16,9 +16,6 @@ namespace UnityWebRTCForAMSTest
         private int videoHeight;
         private int videoBitrate;
         private RenderTexture renderTexture;
-        private IEnumerator webrtcUpdate;
-        private IEnumerator coroutine;
-        private IEnumerator coroutine2;
         private string streamId;
         private AntMediaSignaling signaling;
         private RTCPeerConnection peer;
@@ -136,7 +133,7 @@ namespace UnityWebRTCForAMSTest
             {
                 var videoTrack = new VideoStreamTrack("VideoTrack", renderTexture);
                 peer.AddTrack(videoTrack);
-                coroutine = sendDesc(RTCSdpType.Offer);
+                CoroutineHandler.StartStaticCoroutine(sendDesc(RTCSdpType.Offer));
             }
         }
 
@@ -165,14 +162,14 @@ namespace UnityWebRTCForAMSTest
         private void Signaling_OnAnswer(AntMediaSignalingMessage msg)
         {
             OnLogEvent.Invoke("Signaling OnAnswer", "");
-            coroutine = setRemoteDesc(RTCSdpType.Answer, msg.sdp);
+            CoroutineHandler.StartStaticCoroutine(setRemoteDesc(RTCSdpType.Answer, msg.sdp));
         }
 
         private void Signaling_OnOffer(AntMediaSignalingMessage msg)
         {
             OnLogEvent.Invoke("Signaling OnOffer", "");
             connectPeer();
-            coroutine = setRemoteDesc(RTCSdpType.Offer, msg.sdp);
+            CoroutineHandler.StartStaticCoroutine(setRemoteDesc(RTCSdpType.Offer, msg.sdp));
         }
 
         private void Signaling_OnIceCandidate(AntMediaSignalingMessage msg)
@@ -247,7 +244,15 @@ namespace UnityWebRTCForAMSTest
                 OnLogEvent.Invoke($"Create {opCreate.Desc.type}", "");
             }
 
-            OnLogEvent.Invoke($"SetLocalDescription {type}", $"{opCreate.Desc.sdp.Substring(0, 10)} ...");
+            if(opCreate.Desc.sdp == null)
+            {
+                OnErrorEvent.Invoke("opCreate.Desc.sdp is null", "");
+                yield break;
+            }
+            else
+            {
+                OnLogEvent.Invoke($"SetLocalDescription {type}", $"{opCreate.Desc.sdp.Substring(0, 10)} ...");
+            }
             var desc = opCreate.Desc;
             var opSet = peer.SetLocalDescription(ref desc);
             yield return opSet;
@@ -281,8 +286,7 @@ namespace UnityWebRTCForAMSTest
 
             if (type == RTCSdpType.Offer)
             {
-                coroutine2 = sendDesc(RTCSdpType.Answer);
-                yield return coroutine2.Current;
+                yield return CoroutineHandler.StartStaticCoroutine(sendDesc(RTCSdpType.Answer));
             }
             else
                 OnOpen.Invoke();
@@ -290,38 +294,6 @@ namespace UnityWebRTCForAMSTest
 
         public void Update()
         {
-            //if (webrtcUpdate != null)
-            //{
-            //    webrtcUpdate.MoveNext();
-            //}
-
-            if (coroutine != null)
-            {
-                bool result = coroutine.MoveNext();
-                if (result)
-                {
-                    Debug.Log("Next.");
-                }
-                else
-                {
-                    Debug.Log("End.");
-                    coroutine = null;
-                }
-            }
-
-            if(coroutine2 != null)
-            {
-                bool result = coroutine2.MoveNext();
-                if (result)
-                {
-                    Debug.Log("Next.");
-                }
-                else
-                {
-                    Debug.Log("End.");
-                    coroutine2 = null;
-                }
-            }
         }
 
         public void SendDataChannelData(string msg)
@@ -334,9 +306,6 @@ namespace UnityWebRTCForAMSTest
 
         public void Close()
         {
-            coroutine = null;
-            webrtcUpdate = null;
-
             try
             {
                 signaling?.Close();

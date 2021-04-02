@@ -86,7 +86,14 @@ namespace UnityWebRTCForAMSTest
 
         public void Connect()
         {
-            ws.Connect();
+            try
+            {
+                ws.Connect();
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(ex.Message);
+            }
         }
 
         public void Close()

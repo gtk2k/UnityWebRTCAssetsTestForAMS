@@ -13,13 +13,15 @@ namespace UnityWebRTCForAMSTest
         VideoTrackEvent OnVideoTrack { get; }
         UnityEvent OnDataChannelOpen { get; }
 
-        void Connect(string signalingUrl,
+        void Connect(
+            string signalingUrl,
             ClientType clientType,
             string streamId,
             int videoWidth,
             int videoHeight,
             int videoBitrate,
-            RenderTexture renderTexture);
+            RenderTexture renderTexture
+        );
         void Update();
         void SendDataChannelData(string msg);
         void Close();
