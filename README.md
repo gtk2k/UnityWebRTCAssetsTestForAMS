@@ -1,6 +1,6 @@
 This is a project to test sending and receiving streams and sending and receiving data on data channels using multiple WebRTC assets (SDKs) to Ant Media Server in Unity.
 
-# dependencies
+# Dependencies
 * [websocket-sharp](https://github.com/sta/websocket-sharp)
 * [Newtonsoft.Json for Unity](https://github.com/jilleJr/Newtonsoft.Json-for-Unity)
 
