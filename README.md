@@ -1,7 +1,11 @@
 This is a project to test sending and receiving streams and sending and receiving data on data channels using multiple WebRTC assets (SDKs) to Ant Media Server in Unity.
 
+# dependencies
+* [websocket-sharp](https://github.com/sta/websocket-sharp)
+* [Newtonsoft.Json for Unity](https://github.com/jilleJr/Newtonsoft.Json-for-Unity)
+
 # Getting Start  
-After cloning the repository, open the project in Unity and install "Ant Media Server Unity SDK" and "WebRTC for Unity Package".
+After cloning the repository, open the project in Unity and install dependensies and "Ant Media Server Unity SDK" and "WebRTC for Unity Package".
 Scenes / AMSTest Run when you open a scene.
 Send the video clip as a video stream.
 
